@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %} Setting {% endblock %}
+
+{% block styles %}
+<style>
+.mainBox {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.mainBox div {
+    border: 2px solid blue;
+    border-radius: 20px;
+    padding: 5px;
+    background: yellow;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="mainBox">
+    <div>
+        <a href="/users/profile">Profile</a>
+    </div>
+    
+    <div>
+        <a href="/users/logout">Logout</a>
+    </div>
+    
+    <div>
+        <a href="/test">Check Test</a>
+    </div>
+</div>
+
+<script>
+  let navDiv = document.querySelectorAll(".navbar div");
+  navDiv[2].style["background-color"] = "skyblue";
+  </script>
+  
+  
+{% endblock %}

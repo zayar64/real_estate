@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %} Test {% endblock %}
+
+{% block styles %}
+<style>
+#message {
+    word-wrap: break-word;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+    {% for i,j in data.items %}
+	       <div  id="message" class="alert alert-primary">
+	           {{ i }} : {{ j }}
+	       </div>
+	   {% endfor %}
+{% endblock %}

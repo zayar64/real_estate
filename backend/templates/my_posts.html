@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %} My Posts {% endblock %}
+
+{% block styles %}
+<style>
+.options {
+    display: grid;
+    place-items: center;
+    margin: 10px;
+}
+
+.posts {
+    margin: 10px auto;
+    padding: 10px;
+    overflow-x: hidden;    
+}
+
+.posts ol {
+    height: 250px;
+    overflow-x: scroll;
+    white-space: nowrap;
+    border: 4px solid black;
+    border-radius: 25px;
+}
+
+
+.posts ol li {
+    margin: 20px;
+    margin-left: 30px;
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="options">
+    <a href="/upload-post">
+        <button>
+            + Upload Post
+        </button>
+    </a>
+</div>
+
+{% if posts %}
+    <div class="posts">
+        <ol>
+            {% for post in posts %}
+                <li>
+                    <a href="/posts/{{post.pk}}">{{post}}</a>
+                </li>
+            {% endfor %}
+        </ol>
+    </div>
+{% endif %}
+
+<script>
+  let navDiv = document.querySelectorAll(".navbar div");
+  navDiv[1].style["background-color"] = "skyblue";
+  </script>
+
+<script>
+
+
+
+</script>
+{% endblock %}

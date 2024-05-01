@@ -1,0 +1,71 @@
+{% extends 'users/base.html' %}
+
+{% block title %} Register {% endblock %}
+
+{% block styles %}
+<style>
+form {
+    display: grid;
+    place-items: center;
+    border: 4px solid black;
+    border-radius: 25px;
+    margin: 25px;
+    padding: 10px;
+}
+
+form div {
+    margin: 10px;
+}
+</style>
+{% endblock %}
+
+
+{% block content %}
+<form method="post" enctype="multipart/form-data">{% csrf_token %}
+    {% if error %}
+    <div class="alert alert-danger">
+        {{ error }}
+    </div>
+    {% endif %}
+
+    <div>
+        <input type="text" placeholder="Username" name="username" autocomplete="off" autofocus="on" required value="junian">
+    </div>
+    
+    <div>
+        <input type="number" placeholder="Phone Number" name="phone" autofocus="on" required value="09123456789">
+    </div>
+    
+    <div>
+        <input type="password" placeholder="Password" name="password1" required autofocus="on" value="junian">
+    </div>
+    
+    <div>
+        <input type="password" placeholder="Re-enter password" name="password2" required autofocus="on" value="junian">
+    </div>
+    
+    <div>
+        <input type="text" placeholder="Location Address" name="address" autofocus="on">
+    </div>
+
+    <!--
+    <div>
+        <label for="image">
+            Profile Picture :
+            <input type="file" name="image">
+        </label>
+    </div>
+    -->
+    
+    <div>
+        <button type="submit">Register</button>
+    </div>
+    
+    <div>
+        <p>Already have an account ?
+            <a href="/users/login">Login</a>
+        </p>
+    </div>
+</form>
+
+{% endblock %}

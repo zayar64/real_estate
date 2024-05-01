@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% block title %} Post {% endblock %}
+
+{% block styles %}
+<style>
+.formBox {
+    display: grid;
+    place-items: center;
+}
+
+.formBox div {
+    margin: 10px;
+}
+
+.formBox div input {
+    text-align: center;
+}
+
+</style>
+{% endblock %}
+
+
+{% block content %}
+
+{% csrf_token %}
+<div class="formBox">
+    <div>
+        <input type="text" placeholder="Owner" id="owner">
+    </div>
+
+    <div>
+        <select id="property_type">
+            <option>Land</option>
+            <option>Apartment</option>
+            <option>House</option>
+        </select>
+    </div>
+    
+    <div>
+        <select id="offer_type">
+            <option>Sale</option>
+            <option>Rental</option>
+        </select>
+    </div>
+    
+    <div>
+        <textarea type="text" placeholder="Property Location" id="location" required></textarea>
+    </div>
+    
+    <div colspan="8">
+        <textarea type="text" placeholder="Description" id="description"></textarea>
+    </div>
+    
+    <div>
+        <input type="text" placeholder="Status" id="status">
+    </div>
+    
+    <div>
+        <input type="number" placeholder="Price" id="price" required>
+    </div>
+    
+    <div>
+        <input type="number" placeholder="Contact Phone" id="contact_ph" required>
+    </div>
+    
+    <div>
+        <button onclick="uploadPost()">Post</button>
+    </div>
+    
+</div>
+
+<script>
+
+let formBox = document.querySelector(".formBox");
+
+fields = ["owner", "property_type", "offer_type", "location", "description", "status", "price", "contact_ph"];
+
+function getFieldValue(field) {
+    value = document.getElementById(field).value;
+    return value;
+}
+
+function uploadPost() {
+    data = {"uploader_id": "{{request.user.pk}}"};
+    fields.forEach(field => {
+        value = getFieldValue(field);
+        data[`${field}`] = value;
+    });
+    fetch("/apis/posts", {
+        method: "POST",
+        header: {"Content-Type": "application/json"},
+        body: JSON.stringify(data)
+    })
+    alert("Post successfully shared!");
+    //location.reload();
+}
+  
+
+</script>
+
+{% endblock %}

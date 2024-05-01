@@ -1,0 +1,49 @@
+{% extends 'users/base.html' %}
+
+{% block title %} Login {% endblock %}
+
+{% block styles %}
+<style>
+form {
+    display: grid;
+    place-items: center;
+    border: 4px solid black;
+    border-radius: 25px;
+    margin: 25px;
+}
+
+form div {
+    margin: 10px;
+    
+}
+</style>
+{% endblock %}
+
+
+{% block content %}
+<form method="post">{% csrf_token %}
+    {% if error %}
+    <div class="alert alert-danger">
+        {{ error }}
+    </div>
+    {% endif %}
+
+    <div>
+        <input type="number" placeholder="Phone" name="phone" autocomplete="off" autofocus="on" required>
+    </div>
+    
+    <div>
+        <input type="password" placeholder="Password" name="password" required>
+    </div>
+    
+    <div>
+        <button type="submit">Login</button>
+    </div>
+    
+    <div>
+        <p>Don't have any accounts ?
+            <a href="/users/register">Register</a>
+        </p>
+    </div>
+</form>
+{% endblock %}

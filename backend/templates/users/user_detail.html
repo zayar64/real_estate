@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block title %} User Detail {% endblock %}
+
+{% block styles %}
+<style>
+.header, .user, .alert {
+    display: grid;
+    place-items: center;
+}
+
+.header img {
+    border: 4px solid blue;
+    border-radius: 50%;
+}
+
+.user div {
+    border: 2px solid black;
+    border-radius: 30px;
+    margin: 10px;
+    padding: 10px;
+    width: 90%;
+}
+
+.user div p {
+    display: flex;
+    justify-content: space-between;
+}
+
+.posts {
+    margin: 10px auto;
+    padding: 10px;
+    overflow-x: hidden;    
+}
+
+.posts ol {
+    height: 250px;
+    overflow-x: scroll;
+    white-space: nowrap;
+    border: 4px solid black;
+    border-radius: 25px;
+}
+
+
+.posts ol li {
+    margin: 20px;
+    margin-left: 30px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+{% if user %}
+    <!--
+    <div class="header">
+        <img src="{{user.image.url}}" width="100" height="100" id="userImage"></img>
+    </div>
+    -->
+    
+    <h3 class="header">Profile</h3>
+    <div class="user">
+        <div>
+            <p>
+                <span>Username</span>
+                <span>{{user.username}}</span>
+            </p>
+            
+            <p>
+                <span>Contact Phone</span>
+                <span>{{user.phone}}</span>
+            </p>
+            
+            <p>
+                <span>Location Address</span>
+                <span>{{user.address}}</span>
+            </p>
+        </div>
+    </div>
+    
+    <div class="posts">
+        <h3 class="header">Uploaded Posts</h3>
+        <ol>
+            {% for post in posts %}
+                <li>
+                    <a href="/posts/{{post.pk}}">{{post}}</a>
+                </li>
+            {% endfor %}
+        </ol>
+    </div>
+{% else %}
+    <div class="alert alert-danger">
+        User not found!
+    </div>
+{% endif %}
+
+{% endblock %}

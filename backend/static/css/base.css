@@ -1,0 +1,16 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    text-tranaform: none;
+    text-decoration: none;
+    border-box: none;
+}
+
+button {
+	border-radius: 30px;
+	padding: 4px;
+}
+
+body {
+	 background: #FFFFFF;
+ }

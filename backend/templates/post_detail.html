@@ -1,0 +1,237 @@
+{% extends 'base.html' %}
+
+{% block title %} Post Detail {% endblock %}
+
+{% block styles %}
+<style>
+
+.editPost {
+    display: flex;
+    justify-content: space-around;
+}
+
+.editPost a {
+    color: black;
+}
+
+.editPost .updatePost {
+    background: green;
+}
+.editPost .deletePost {
+    background: red;
+}
+
+.someonePost {
+    padding: 10px;
+    display: grid;
+    place-items: center;
+}
+
+.someonePost div {
+    border: 2px solid black;
+    border-radius: 30px;
+    margin: 10px;
+    padding: 10px;
+    width: 90%;
+    display: grid;
+    place-items: center;
+}
+
+.someonePost div label {
+    text-decoration: underline;
+}
+
+.myPost {
+    border: 4px solid black;
+    border-radius: 30px;
+    margin: 20px;
+    padding: 20px;
+}
+
+.myPost div {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+{% if not uploaded_by_me %}
+    <div class="someonePost">
+        <div>
+            <label>Owner</label>
+            <p>{{post.owner}}</p>
+        </div>
+        
+        <div>
+            <label>Property Type</label>
+            <p>{{post.property_type}}</p>
+        </div>
+        
+        <div>
+            <label>Descriptions</label>
+            <p>{{post.description}}</p>
+        </div>
+        
+        <div>
+            <label>Price</label>
+            <p id="price">{{post.price}}</p>
+        </div>
+        
+        <div>
+            <label>Contact Phone</label>
+            <p id="contactPhone">{{post.contact_ph}}</p>
+        </div>
+        
+        <div>
+            <label>Location</label>
+            <p>{{post.location}}</p>
+        </div>
+        
+        <div>
+            <label>Uploaded By</label>
+            <a href="/users/{{uploader.pk}}">{{uploader.username}}</a>
+        </div>
+        
+        <div>
+            <label>Last Updated Time</label>
+            <p>{{post.uploaded_time}}</p>
+        </div>
+    </div>
+
+{% else %}
+    <div class="myPost">
+        <div>
+            <label>Owner<br>
+                <input value="{{post.owner}}" id="owner">
+            </label>
+        </div>
+        
+        <div>
+            <label>Property Type<br>
+                <select id="property_type">
+                    <option>{{post.property_type}}</option>
+                </select>
+            </label>
+        </div>
+        
+        <div>
+            <label>Offer Type<br>
+                <select id="offer_type">
+                    <option>{{post.offer_type}}</option>
+                </select>
+            </label>
+        </div>
+        
+        <div>
+            <label>Description<br>
+                <input type="text" id="description" value="{{post.description}}">
+                
+            </label>
+        </div>
+        
+        <div>
+            <label>Status<br>
+                <input type="text" id="status" value="{{post.status}}">
+            </label>
+        </div>
+        
+        <div>
+            <label>Price<br>
+                <input type="number" id="price" value="{{post.price}}">
+            </label>
+        </div>
+        
+        <div>
+            <label>Contact Phone<br>
+                <input type="number" id="contact_ph" value="{{post.contact_ph}}">
+            </label>
+        </div>
+        
+        <div>
+            <label>Location<br>
+                <input value="{{post.location}}" id="location">
+            </label>
+        </div>
+        
+        <div>
+            <label>Last Updated Time<br>
+                <input value="{{post.uploaded_time}}" disabled>
+            </label>
+        </div>
+    </div>
+    
+    <div class="editPost">
+        <button class="updatePost">
+            <a href="/my-posts">
+                Update Post
+            </a>
+        </button>
+    
+        <button class="deletePost">
+            <a href="/my-posts">
+                Delete Post
+            </a>
+        </button>
+    </div>
+{% endif %}
+
+<script>
+
+let post_id = "{{post.pk|safe}}";
+let uploaded_by_me = "{{uploaded_by_me|safe}}" == "True";
+
+
+if (uploaded_by_me) {
+
+    let propertyType = "{{post.property_type|safe}}";
+    let propertyTypes = ["Apartment", "House", "Land"];
+    
+    propertyTypes.forEach(i => {
+        let option = document.createElement("option")
+        option.innerHTML = i;
+        if (propertyType != i) {
+            document.querySelector("#property_type").appendChild(option);
+        }
+    })
+    
+    
+    let offerType = "{{post.offer_type|safe}}";
+    let offerTypes = ["Rental", "Sale"];
+    
+    offerTypes.forEach(i => {
+        let option = document.createElement("option")
+        option.innerHTML = i;
+        if (offerType != i) {
+            document.querySelector("#offer_type").appendChild(option);
+        }
+    })
+    document.querySelector(".updatePost").addEventListener("click", (event) => {
+        fetch(`/apis/posts/${post_id}`, {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                'owner': document.querySelector('#owner').value,
+                'offer_type': document.querySelector('#offer_type').value,
+                'property_type': document.querySelector('#property_type').value,
+                'description': document.querySelector('#description').value,
+                'price': document.querySelector('#price').value,
+                'status': document.querySelector('#status').value,
+                'contact_ph': document.querySelector('#contact_ph').value,
+                'location': document.querySelector('#location').value,
+            })
+        })
+    });
+    
+    document.querySelector(".deletePost").addEventListener("click", (event) => {
+        fetch(`/apis/posts/${post_id}`, {
+            method: 'DELETE',
+        })
+    });
+}
+
+</script>
+{% endblock %}

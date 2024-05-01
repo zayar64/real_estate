@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block title %} Profile {% endblock %}
+
+{% block styles %}
+<style>
+.profile, .otherOptions {
+    display: grid;
+    place-items: center;
+}
+
+.profile div, .otherOptions div {
+    margin: 10px;
+}
+
+.profile div label span {
+    color: blue;
+}
+
+#userImage {
+    border: 4px solid blue;
+    border-radius: 50%;
+}
+
+#deleteBtn {
+    background: red;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<form class="profile" method="post" enctype="multipart/form-data">{% csrf_token %}
+    {% if error %}
+    <div class="alert alert-danger">
+        {{ error }}
+    </div>
+    {% endif %}
+    
+    <div class="user_id">
+        <input hidden value="{{user.id}}" name="user_id">
+        </label>
+    </div>
+    
+    <!--
+    <div>
+        <img src="{{user.image.url}}" width="100" height="100" id="userImage"></img>
+    </div>
+    
+    <div>
+        <input type="file" name="image">
+    </div>
+    -->
+    
+    <div>
+        <label for="username">Username<br>
+        <input type="text" placeholder="Enter new username" value="{{user.username}}" name="username">
+        </label>
+    </div>
+    
+    <div>
+        <label>Phone<br>
+        <input type="number" value="{{user.phone}}" disabled>
+        </label>
+    </div>
+    
+    <div>
+        <label for="address">Location Address<br>
+        <input type="text" placeholder="Enter new location address" value="{{user.address}}" name="address">
+        </label>
+    </div>
+    
+    <div>
+        <label for="password">Password<br>
+        <input type="password" placeholder="Enter your password" name="password" required>
+        </label>
+    </div>
+    
+    <div>
+        <button type="submit">Save Changes</button>
+    </div>    
+</form>
+
+<div class="otherOptions">
+    <div>
+        <a href="/users/change_password">Change Password</a>
+    </div>
+    
+    <div>
+        <button  id="deleteBtn" onclick="deleteMyAccount()">
+            Delete My Account
+        </button>
+    </div>
+</div>
+
+<script>
+function deleteMyAccount() {
+    let id = "{{user.id|safe}}";
+    let text = "CONFIRM";
+    let confirmation = prompt(`Enter '${text}' to confirm account deletion...`);
+    if (confirmation === text) {
+        fetch(`/apis/users/${id}`, {
+            method: "DELETE"
+        });
+        location.href = "/";
+    } else {
+        location.reload();
+    }
+}
+</script>
+{% endblock %}

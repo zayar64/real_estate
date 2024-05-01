@@ -1,0 +1,73 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="{% static 'css/base.css' %}" rel="stylesheet">
+    
+    <link rel="manifest" href="{% static 'manifest.json' %}">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin=" anonymous" referrerpolicy=" no-referrer" />
+    {% block styles %}{% endblock %}
+    
+    <style>
+    body {
+        background: #1f2123;
+        color: white;
+    }
+    
+    .navbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: ;
+    position: fixed;
+    width: 100%;
+    background: #1f2130;
+    }
+
+    .navbar div {
+    border: 2px solid black;
+    border-radius: 30px;
+    padding: 5px;
+    }
+
+    .navbar div a {
+    font-size: 1.5rem;
+    }
+
+    </style>
+    
+  </head>
+  <body>
+  <nav class="navbar">
+    <div>
+        <a href="/">🗃️</a>
+    </div>
+    
+    <div>
+        <a href="/my-posts">🏠</a>
+    </div>
+    
+    <div>
+        <a href="/setting">⚙️</a>
+    </div>
+  </nav>
+  <br><br><br>
+  
+  <div class="container">
+    {% block content %}{% endblock %}
+  </div>
+  
+  <br>
+  
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    {% block scripts %}{% endblock %}
+  </body>
+</html>
